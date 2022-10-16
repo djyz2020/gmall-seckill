@@ -4,9 +4,9 @@
 
 1、启动前，请配置 application.properties 中相关redis、mysql、rabbitmq（需要提前创建好队列，队列名称：seckill.queue）地址。
 
-2、登录地址：http://localhost:8888/user/index   
+2、登录地址：http://localhost:8080/index   
 
-3、商品秒杀列表地址：http://localhost:8888/goods/list
+3、商品秒杀列表地址：http://localhost:8080/goods/list
 
 ## 其它说明
 

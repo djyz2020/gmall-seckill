@@ -20,7 +20,6 @@ import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
-@RequestMapping("/user")
 public class LoginController {
 
     @Autowired
@@ -37,7 +36,7 @@ public class LoginController {
         return modelAndView;
     }
 
-    @RequestMapping("/login")
+    @RequestMapping("/user/login")
     @ResponseBody
     public Result<User> doLogin(HttpServletResponse response, HttpSession session , @Valid LoginParam loginParam) {
         Result<User> login = userService.login(loginParam);
@@ -48,7 +47,7 @@ public class LoginController {
         return login;
     }
 
-    @RequestMapping("/logout")
+    @RequestMapping("/user/logout")
     public String doLogout(HttpServletRequest request, HttpServletResponse response) {
         String token = CookieUtil.readLoginToken(request);
         CookieUtil.delLoginToken(request , response);
