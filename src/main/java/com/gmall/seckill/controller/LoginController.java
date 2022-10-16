@@ -18,13 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-/**
- * Created by: HuangFuBin
- * Date: 2018/7/9
- * Time: 12:37
- * Such description:
- */
-@Controller
 @RequestMapping("/user")
 public class LoginController {
 

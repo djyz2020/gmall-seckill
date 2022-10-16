@@ -25,7 +25,7 @@
       <arg column="goods_stock" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="create_date" jdbcType="TIMESTAMP" javaType="java.util.Date" />
       <arg column="update_date" jdbcType="TIMESTAMP" javaType="java.util.Date" />
-      <arg column="goods_detail" jdbcType="LONGVARCHAR" javaType="java.lang.String" />
+      <arg column="goods_detail" jdbcType="VARCHAR" javaType="java.lang.String" />
     </constructor>
   </resultMap>
 
@@ -43,7 +43,7 @@
       <arg column="goods_stock" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="create_date" jdbcType="TIMESTAMP" javaType="java.util.Date" />
       <arg column="update_date" jdbcType="TIMESTAMP" javaType="java.util.Date" />
-      <arg column="goods_detail" jdbcType="LONGVARCHAR" javaType="java.lang.String" />
+      <arg column="goods_detail" jdbcType="VARCHAR" javaType="java.lang.String" />
     </constructor>
   </resultMap>
 
@@ -81,7 +81,7 @@
       )
     values (#{id,jdbcType=BIGINT}, #{goodsName,jdbcType=VARCHAR}, #{goodsTitle,jdbcType=VARCHAR}, 
       #{goodsImg,jdbcType=VARCHAR}, #{goodsPrice,jdbcType=DECIMAL}, #{goodsStock,jdbcType=INTEGER}, 
-      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, #{goodsDetail,jdbcType=LONGVARCHAR}
+      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, #{goodsDetail,jdbcType=VARCHAR}
       )
   </insert>
 
@@ -142,7 +142,7 @@
         #{updateDate,jdbcType=TIMESTAMP},
       </if>
       <if test="goodsDetail != null" >
-        #{goodsDetail,jdbcType=LONGVARCHAR},
+        #{goodsDetail,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -172,7 +172,7 @@
         update_date = #{updateDate,jdbcType=TIMESTAMP},
       </if>
       <if test="goodsDetail != null" >
-        goods_detail = #{goodsDetail,jdbcType=LONGVARCHAR},
+        goods_detail = #{goodsDetail,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
@@ -187,7 +187,7 @@
       goods_stock = #{goodsStock,jdbcType=INTEGER},
       create_date = #{createDate,jdbcType=TIMESTAMP},
       update_date = #{updateDate,jdbcType=TIMESTAMP},
-      goods_detail = #{goodsDetail,jdbcType=LONGVARCHAR}
+      goods_detail = #{goodsDetail,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 

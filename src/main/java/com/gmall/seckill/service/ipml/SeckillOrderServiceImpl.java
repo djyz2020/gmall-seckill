@@ -21,7 +21,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @Slf4j
-@Service("seckillOrderService")
+@Service
 public class SeckillOrderServiceImpl implements SeckillOrderService {
 
     @Autowired

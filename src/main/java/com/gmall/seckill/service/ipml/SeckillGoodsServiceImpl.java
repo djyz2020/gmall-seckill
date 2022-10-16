@@ -6,12 +6,14 @@ import com.gmall.seckill.service.SeckillGoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
-@Service("seckillGoodsService")
+@Service
 public class SeckillGoodsServiceImpl implements SeckillGoodsService {
-    @Autowired
-    GoodsMapper goodsMapper;
+
+    @Resource
+    private GoodsMapper goodsMapper;
 
     @Override
     public List<GoodsBo> getSeckillGoodsList() {

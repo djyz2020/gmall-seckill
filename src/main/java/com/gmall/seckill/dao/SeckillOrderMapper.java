@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SeckillOrderMapper {
+
     int deleteByPrimaryKey(Long id);
 
     int insert(SeckillOrder record);

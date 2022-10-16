@@ -16,7 +16,7 @@ import java.io.IOException;
  * 重新设置用户session在redis的有效期
  */
 @Component
-public class SessionExpireFilter implements Filter {
+public class SessionValidFilter implements Filter {
 
     @Autowired
     RedisService redisService;

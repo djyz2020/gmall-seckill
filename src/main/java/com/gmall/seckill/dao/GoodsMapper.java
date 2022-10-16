@@ -2,10 +2,13 @@ package com.gmall.seckill.dao;
 
 import com.gmall.seckill.bo.GoodsBo;
 import com.gmall.seckill.po.Goods;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface GoodsMapper {
+
     int deleteByPrimaryKey(Long id);
 
     int insert(Goods record);

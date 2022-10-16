@@ -6,7 +6,7 @@ import com.gmall.seckill.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service("orderService")
+@Service
 public class OrderServiceImpl implements OrderService {
     @Autowired
     OrdeInfoMapper ordeInfoMapper;

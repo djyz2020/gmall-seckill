@@ -18,7 +18,7 @@ import javax.validation.Payload;
 @Retention(RUNTIME)
 @Documented
 @Constraint(validatedBy = {IsMobileValidator.class })
-public @interface  IsMobile {
+public @interface IsMobile {
 	
 	boolean required() default true;
 	

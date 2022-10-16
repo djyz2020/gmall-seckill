@@ -2,35 +2,31 @@ package com.gmall.seckill.config;
 
 
 import com.alibaba.fastjson.support.spring.GenericFastJsonRedisSerializer;
+import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
-public class RedisConfig {
+public class RedisConfig extends CachingConfigurerSupport {
 
     @Bean
     public RedisSerializer<String> redisKeySerializer() {
         return new StringRedisSerializer();
     }
 
-    /**
-     *
-     * @description 使用FastJson
-     * @param
-     * @author huangfubin
-     * @date 2021/8/5
-     * @return org.springframework.data.redis.serializer.RedisSerializer<java.lang.Object>
-     */
     @Bean
     public RedisSerializer<Object> redisValueSerializer() {
         return new GenericFastJsonRedisSerializer();
     }
+
     @Bean
-    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory, RedisSerializer<String> redisKeySerializer, RedisSerializer<Object> redisValueSerializer) {
+    public RedisTemplate<String, Object> redisTemplate(LettuceConnectionFactory factory,
+                                                       RedisSerializer<String> redisKeySerializer,
+                                                       RedisSerializer<Object> redisValueSerializer) {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(factory);
         //设置Key的序列化采用StringRedisSerializer

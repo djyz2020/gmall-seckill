@@ -26,16 +26,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by: HuangFuBin
- * Date: 2018/7/15
- * Time: 23:55
- * Such description:
- */
 @Controller
 @RequestMapping("seckill")
 public class SeckillController implements InitializingBean {
-
 
     @Autowired
     RedisService redisService;
@@ -55,9 +48,9 @@ public class SeckillController implements InitializingBean {
     private final HashMap<Long, Boolean> localOverMap = new HashMap<Long, Boolean>();
 
     /**
-     * 将库存初始化到本地缓存及redis缓存，原则上次块应该在创建秒杀活动时候触发的（为了演示，此项目没有创建活动逻辑，所有放在启动项目时候放进内存）
+     * 将库存初始化到本地缓存及redis缓存，原则上应该在创建秒杀活动时候触发的（为了演示，此项目没有创建活动逻辑，所有放在启动项目时候放进内存）
      */
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         List<GoodsBo> goodsList = seckillGoodsService.getSeckillGoodsList();
         if (goodsList == null) {
             return;
@@ -154,11 +147,11 @@ public class SeckillController implements InitializingBean {
         long result = seckillOrderService.getSeckillResult((long) user.getId(), goodsId);
         return Result.success(result);
     }
+
     @AccessLimit(seconds=5, maxCount=5, needLogin=true)
     @RequestMapping(value = "/path", method = RequestMethod.GET)
     @ResponseBody
-    public Result<String> getMiaoshaPath(HttpServletRequest request, User user,
-                                         @RequestParam("goodsId") long goodsId) {
+    public Result<String> getMiaoshaPath(HttpServletRequest request, User user, @RequestParam("goodsId") long goodsId) {
         String loginToken = CookieUtil.readLoginToken(request);
         user = redisService.get(UserKey.getByName, loginToken, User.class);
         if (user == null) {
