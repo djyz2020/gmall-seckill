@@ -1,8 +1,5 @@
 ## 基于 SpringBoot+Mybatis+Redis+RabbitMQ 秒杀系统
 
-## 友情项目
-该项目基于SpringCloud & SpringCloudAlibaba & SpringBoot & Vue3开发，基于多租户SaaS模式的设计，拥有强大的用户中心（一个账号对应多业务身份），权限基于RBAC设计，支持蓝绿灰度发布、网关动态路由、服务治理（流量控制、熔断降级、系统自适应保护、服务鉴权）等功能。
-
 ## 项目启动说明
 
 1、启动前，请配置 application.properties 中相关redis、mysql、rabbitmq（需要提前创建好队列，队列名称：seckill.queue）地址。
@@ -21,16 +18,6 @@
     3)、隐藏秒杀接口地址
     4)、接口限流防刷
     5)、解决超卖问题
-
-### 页面截图
-登录页
-![123](img/1.png)
-商品列表情页
-![123](img/2.png)
-商品详情页
-![123](img/3.png)
-订单详情页
-![123](img/4.png)
 
 <br/>
 <a href="https://blog.csdn.net/JokerLJG/article/details/119656022">浅析VO、DTO、DO、PO、POJO区别</a>
