@@ -83,7 +83,7 @@
                 } else if(data.code === 500216){
                     layer.confirm("未登录是否去登录！！！", {btn: ["确定", "取消"]},
                         function () {
-                            window.location.href = "/user/index";
+                            window.location.href = "/index";
                         },
                         function () {
                             layer.closeAll();
@@ -147,7 +147,7 @@
                     } else if (data.code == 500216) {
                         layer.confirm(data.msg, {btn: ["确定", "取消"]},
                             function () {
-                                window.location.href = "/user/index";
+                                window.location.href = "/index";
                             },
                             function () {
                                 layer.closeAll();

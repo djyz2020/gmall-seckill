@@ -18,13 +18,7 @@ import javax.annotation.Resource;
 public class MQReceiver {
 
     @Resource
-    private RedisService redisService;
-
-    @Resource
     private SeckillGoodsService goodsService;
-
-    @Resource
-    private OrderService orderService;
 
     @Resource
     private SeckillOrderService seckillOrderService;

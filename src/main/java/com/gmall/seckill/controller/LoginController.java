@@ -44,7 +44,7 @@ public class LoginController {
         CommonResult<User> login = userService.login(loginParam);
         if (login.isSuccess()){
             CookieUtil.writeLoginToken(response,session.getId());
-            redisService.set(UserKey.getByName , session.getId() ,login.getData(), RedisConst.RedisCacheExtime.REDIS_SESSION_EXTIME);
+            redisService.set(UserKey.getByName, session.getId(), login.getData(), RedisConst.RedisCacheExtime.REDIS_SESSION_EXTIME);
         }
         return login;
     }
