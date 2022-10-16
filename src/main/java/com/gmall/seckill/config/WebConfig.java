@@ -23,7 +23,7 @@ public class WebConfig extends WebMvcConfigurationSupport {
         // addPathPatterns 用于添加拦截规则
         // excludePathPatterns 用户排除拦截
         // 映射为 user 的控制器下的所有映射
-        //registry.addInterceptor(authorizationInterceptor).addPathPatterns("/user/login").excludePathPatterns("/index", "/");
+        //registry.addInterceptor(authorizationInterceptor).addPathPatterns("/user/index").excludePathPatterns("/index", "/");
         registry.addInterceptor(authorizationInterceptor);
         super.addInterceptors(registry);
     }

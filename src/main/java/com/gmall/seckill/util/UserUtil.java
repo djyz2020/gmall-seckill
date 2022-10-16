@@ -29,7 +29,7 @@ public class UserUtil {
             users.add(user);
         }
         //登录，生成token
-        String urlString = "http://localhost:8080/page/login";
+        String urlString = "http://localhost:8080/user/index";
         File file = new File("./tokens.txt");
         if (file.exists()) {
             file.delete();

@@ -67,20 +67,20 @@ public class SeckillController implements InitializingBean {
         User user = redisService.get(UserKey.getByName, loginToken, User.class);
         model.addAttribute("user", user);
         if (user == null) {
-            return "login";
+            return "index";
         }
         //判断库存
         GoodsBo goods = seckillGoodsService.getseckillGoodsBoByGoodsId(goodsId);
         int stock = goods.getStockCount();
         if (stock <= 0) {
             model.addAttribute("errmsg", CodeMsg.MIAO_SHA_OVER.getMsg());
-            return "miaosha_fail";
+            return "seckill_fail";
         }
         //判断是否已经秒杀到了
         SeckillOrder order = seckillOrderService.getSeckillOrderByUserIdGoodsId(user.getId(), goodsId);
         if (order != null) {
             model.addAttribute("errmsg", CodeMsg.REPEATE_MIAOSHA.getMsg());
-            return "miaosha_fail";
+            return "seckill_fail";
         }
         //减库存 下订单 写入秒杀订单
         OrderInfo orderInfo = seckillOrderService.insert(user, goods);
