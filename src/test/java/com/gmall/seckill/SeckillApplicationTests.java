@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -19,11 +20,11 @@ import java.util.List;
 @SpringBootTest
 public class SeckillApplicationTests {
 
-	@Autowired
-	DataSource dataSource;
+	@Resource
+	private DataSource dataSource;
 
-	@Autowired
-	GoodsMapper goodsMapper;
+	@Resource
+	private GoodsMapper goodsMapper;
 
 	@Test
 	public void contextLoads() throws SQLException {
@@ -32,12 +33,11 @@ public class SeckillApplicationTests {
 		Connection connection = dataSource.getConnection();
 		System.out.println(connection);
 		connection.close();
-
 	}
 
 	@Test
 	public void test01(){
-		List<GoodsBo> goodsBos = goodsMapper.selectAllGoodes();
+		List<GoodsBo> goodsBos = goodsMapper.selectAllGoods();
 		for (GoodsBo goodsBo : goodsBos){
 			log.info(goodsBo+"");
 		}

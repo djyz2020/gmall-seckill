@@ -1,5 +1,6 @@
 package com.gmall.seckill.filter;
-import com.gmall.seckill.common.Const;
+
+import com.gmall.seckill.common.RedisConst;
 import com.gmall.seckill.po.User;
 import com.gmall.seckill.redis.RedisService;
 import com.gmall.seckill.redis.UserKey;
@@ -8,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -18,8 +20,8 @@ import java.io.IOException;
 @Component
 public class SessionValidFilter implements Filter {
 
-    @Autowired
-    RedisService redisService;
+    @Resource
+    private RedisService redisService;
 
     @Override
     public void init(FilterConfig filterConfig) {}
@@ -35,7 +37,7 @@ public class SessionValidFilter implements Filter {
             User user = redisService.get(UserKey.getByName,loginToken, User.class);
             if(user != null){
                 //如果user不为空，则重置session的时间，即调用expire命令
-                redisService.expire(UserKey.getByName , loginToken, Const.RedisCacheExtime.REDIS_SESSION_EXTIME);
+                redisService.expire(UserKey.getByName , loginToken, RedisConst.RedisCacheExtime.REDIS_SESSION_EXTIME);
             }
         }
         filterChain.doFilter(servletRequest,servletResponse);

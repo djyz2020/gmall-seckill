@@ -1,20 +1,21 @@
 package com.gmall.seckill.exception;
 
 
-import com.gmall.seckill.result.CodeMsg;
+import com.gmall.seckill.common.AppStatus;
 
 public class GmallException extends RuntimeException{
 
 	private static final long serialVersionUID = 1L;
 	
-	private CodeMsg cm;
+	private AppStatus appStatus;
 	
-	public GmallException(CodeMsg cm) {
-		super(cm.toString());
-		this.cm = cm;
+	public GmallException(AppStatus appStatus) {
+		super(appStatus.toString());
+		this.appStatus = appStatus;
 	}
-	public CodeMsg getCm() {
-		return cm;
+
+	public AppStatus getAppStatus() {
+		return appStatus;
 	}
 
 }

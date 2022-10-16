@@ -3,8 +3,8 @@ package com.gmall.seckill.interceptor;
 import com.gmall.seckill.annotations.AccessLimit;
 import com.gmall.seckill.po.User;
 import com.gmall.seckill.redis.AccessKey;
-import com.gmall.seckill.result.CodeMsg;
-import com.gmall.seckill.result.Result;
+import com.gmall.seckill.common.AppStatus;
+import com.gmall.seckill.common.CommonResult;
 import com.gmall.seckill.util.CookieUtil;
 import com.gmall.seckill.redis.RedisService;
 import com.gmall.seckill.redis.UserKey;
@@ -18,6 +18,7 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.OutputStream;
@@ -30,8 +31,9 @@ import java.util.Map;
  */
 @Component
 public class AuthorizationInterceptor implements HandlerInterceptor {
-    @Autowired
-    RedisService redisService;
+
+    @Resource
+    private RedisService redisService;
 
     private final Logger logger = LoggerFactory.getLogger(AuthorizationInterceptor.class);
 
@@ -88,7 +90,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 
             if (needLogin) {
                 if (user == null) {
-                    render(response, CodeMsg.USER_NO_LOGIN);
+                    render(response, AppStatus.USER_NO_LOGIN);
                     return false;
                 }
                 key += "_" + user.getId();
@@ -102,7 +104,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
             } else if (count < maxCount) {
                 redisService.incr(ak, key);
             } else {
-                render(response, CodeMsg.ACCESS_LIMIT_REACHED);
+                render(response, AppStatus.ACCESS_LIMIT_REACHED);
                 return false;
             }
         }
@@ -118,10 +120,10 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
     }
 
-    private void render(HttpServletResponse response, CodeMsg cm) throws Exception {
+    private void render(HttpServletResponse response, AppStatus cm) throws Exception {
         response.setContentType("application/json;charset=UTF-8");
         OutputStream out = response.getOutputStream();
-        String str = JSON.toJSONString(Result.error(cm));
+        String str = JSON.toJSONString(CommonResult.error(cm));
         out.write(str.getBytes("UTF-8"));
         out.flush();
         out.close();

@@ -1,6 +1,6 @@
 package com.gmall.seckill.common;
 
-public class Const {
+public class RedisConst {
 
     public interface RedisCacheExtime {
         int REDIS_SESSION_EXTIME = 60 * 30;

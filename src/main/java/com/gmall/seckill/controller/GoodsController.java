@@ -1,13 +1,13 @@
 package com.gmall.seckill.controller;
 
 import com.gmall.seckill.po.GoodsBo;
-import com.gmall.seckill.common.Const;
+import com.gmall.seckill.common.RedisConst;
 import com.gmall.seckill.po.User;
 import com.gmall.seckill.redis.GoodsKey;
 import com.gmall.seckill.redis.RedisService;
 import com.gmall.seckill.redis.UserKey;
-import com.gmall.seckill.result.CodeMsg;
-import com.gmall.seckill.result.Result;
+import com.gmall.seckill.common.AppStatus;
+import com.gmall.seckill.common.CommonResult;
 import com.gmall.seckill.service.SeckillGoodsService;
 import com.gmall.seckill.util.CookieUtil;
 import com.gmall.seckill.vo.GoodsDetailVo;
@@ -23,6 +23,7 @@ import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -31,16 +32,17 @@ import java.util.List;
 @RequestMapping("/goods")
 public class GoodsController {
 
-    @Autowired
-    RedisService redisService;
-    @Autowired
-    SeckillGoodsService seckillGoodsService;
+    @Resource
+    private RedisService redisService;
 
-    @Autowired
-    ThymeleafViewResolver thymeleafViewResolver;
+    @Resource
+    private SeckillGoodsService seckillGoodsService;
 
-    @Autowired
-    ApplicationContext applicationContext;
+    @Resource
+    private ThymeleafViewResolver thymeleafViewResolver;
+
+    @Resource
+    private ApplicationContext applicationContext;
 
     @RequestMapping("/list")
     @ResponseBody
@@ -61,7 +63,7 @@ public class GoodsController {
         //手动渲染
         html = thymeleafViewResolver.getTemplateEngine().process("goods_list", ctx);
         if (!StringUtils.isEmpty(html)) {
-            redisService.set(GoodsKey.getGoodsList, "", html, Const.RedisCacheExtime.GOODS_LIST);
+            redisService.set(GoodsKey.getGoodsList, "", html, RedisConst.RedisCacheExtime.GOODS_LIST);
         }
         return html;
     }
@@ -103,7 +105,7 @@ public class GoodsController {
                     request.getServletContext(), request.getLocale(), model.asMap());
             html = thymeleafViewResolver.getTemplateEngine().process("goods_detail", ctx);
             if (!StringUtils.isEmpty(html)) {
-                redisService.set(GoodsKey.getGoodsDetail, "" + goodsId, html, Const.RedisCacheExtime.GOODS_INFO);
+                redisService.set(GoodsKey.getGoodsDetail, "" + goodsId, html, RedisConst.RedisCacheExtime.GOODS_INFO);
             }
             return html;
         }
@@ -111,13 +113,13 @@ public class GoodsController {
 
     @RequestMapping("/detail/{goodsId}")
     @ResponseBody
-    public Result<GoodsDetailVo> detail(Model model, @PathVariable("goodsId") long goodsId, HttpServletRequest request) {
+    public CommonResult<GoodsDetailVo> detail(Model model, @PathVariable("goodsId") long goodsId, HttpServletRequest request) {
         String loginToken = CookieUtil.readLoginToken(request);
         User user = redisService.get(UserKey.getByName, loginToken, User.class);
 
         GoodsBo goods = seckillGoodsService.getseckillGoodsBoByGoodsId(goodsId);
         if (goods == null) {
-            return Result.error(CodeMsg.NO_GOODS);
+            return CommonResult.error(AppStatus.NO_GOODS);
         } else {
             model.addAttribute("goods", goods);
             long startAt = goods.getStartDate().getTime();
@@ -139,7 +141,7 @@ public class GoodsController {
             vo.setUser(user);
             vo.setRemainSeconds(remainSeconds);
             vo.setMiaoshaStatus(miaoshaStatus);
-            return Result.success(vo);
+            return CommonResult.success(vo);
         }
     }
 }

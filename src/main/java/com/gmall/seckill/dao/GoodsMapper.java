@@ -23,7 +23,7 @@ public interface GoodsMapper {
 
     int updateByPrimaryKey(Goods record);
 
-    List<GoodsBo> selectAllGoodes ();
+    List<GoodsBo> selectAllGoods ();
 
     GoodsBo getseckillGoodsBoByGoodsId(long goodsId);
 

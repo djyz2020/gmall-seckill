@@ -8,13 +8,14 @@ import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 
 @Service
 @Slf4j
 public class MQSender {
 
-    @Autowired
-    AmqpTemplate amqpTemplate;
+    @Resource
+    private AmqpTemplate amqpTemplate;
 
     public void sendSeckillMessage(SeckillMessage mm) {
         String msg = RedisService.beanToString(mm);

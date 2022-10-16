@@ -203,7 +203,7 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
 
-  <select id="selectAllGoodes" resultMap="BaseResultSeckillOrderAndGoodsMap">
+  <select id="selectAllGoods" resultMap="BaseResultSeckillOrderAndGoodsMap">
     select
     <include refid="Base_Column_Seckill_List"/>
     ,

@@ -1,17 +1,16 @@
 package com.gmall.seckill.redis;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.alibaba.fastjson.JSON;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSON;
-
+import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
 @Service
 public class RedisService {
 
-    @Autowired
+    @Resource
     private RedisTemplate<String, Object> redisTemplate;
 
     /**

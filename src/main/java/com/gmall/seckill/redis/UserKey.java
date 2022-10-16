@@ -1,6 +1,6 @@
 package com.gmall.seckill.redis;
 
-public class UserKey extends BasePrefix{
+public class UserKey extends BasePrefix {
 
 	private UserKey(String prefix) {
 		super(prefix);

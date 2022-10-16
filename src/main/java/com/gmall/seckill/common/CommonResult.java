@@ -1,35 +1,37 @@
-package com.gmall.seckill.result;
+package com.gmall.seckill.common;
 
-public class Result<T> {
+public class CommonResult<T> {
 
 	private int code;
+
 	private String msg;
+
 	private T data;
 
 	public boolean isSuccess(){
-		return this.code == CodeMsg.SUCCESS.getCode();
+		return this.code == AppStatus.SUCCESS.getCode();
 	}
 
-	public static  <T> Result<T> success(T data){
-		return new Result<T>(data);
+	public static  <T> CommonResult<T> success(T data){
+		return new CommonResult<T>(data);
 	}
 
-	public static  <T> Result<T> error(CodeMsg codeMsg){
-		return new Result<T>(codeMsg);
+	public static  <T> CommonResult<T> error(AppStatus codeMsg){
+		return new CommonResult<T>(codeMsg);
 	}
 
-	private Result(T data) {
-		this.code = CodeMsg.SUCCESS.getCode();
-		this.msg = CodeMsg.SUCCESS.getMsg();
+	private CommonResult(T data) {
+		this.code = AppStatus.SUCCESS.getCode();
+		this.msg = AppStatus.SUCCESS.getMsg();
 		this.data = data;
 	}
 
-	private Result(int code, String msg) {
+	private CommonResult(int code, String msg) {
 		this.code = code;
 		this.msg = msg;
 	}
 
-	private Result(CodeMsg codeMsg) {
+	private CommonResult(AppStatus codeMsg) {
 		if(codeMsg != null) {
 			this.code = codeMsg.getCode();
 			this.msg = codeMsg.getMsg();

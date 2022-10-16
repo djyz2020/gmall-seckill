@@ -12,21 +12,23 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+
 @Service
 @Slf4j
 public class MQReceiver {
 
-    @Autowired
-    RedisService redisService;
+    @Resource
+    private RedisService redisService;
 
-    @Autowired
-    SeckillGoodsService goodsService;
+    @Resource
+    private SeckillGoodsService goodsService;
 
-    @Autowired
-    OrderService orderService;
+    @Resource
+    private OrderService orderService;
 
-    @Autowired
-    SeckillOrderService seckillOrderService;
+    @Resource
+    private SeckillOrderService seckillOrderService;
 
     @RabbitListener(queues = MQConfig.MIAOSHA_QUEUE)
     public void receive(String message) {

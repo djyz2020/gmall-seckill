@@ -4,15 +4,15 @@ import com.gmall.seckill.annotations.AccessLimit;
 import com.gmall.seckill.po.GoodsBo;
 import com.gmall.seckill.mq.MQSender;
 import com.gmall.seckill.mq.SeckillMessage;
-import com.gmall.seckill.common.Const;
+import com.gmall.seckill.common.RedisConst;
 import com.gmall.seckill.po.OrderInfo;
 import com.gmall.seckill.po.SeckillOrder;
 import com.gmall.seckill.po.User;
 import com.gmall.seckill.redis.GoodsKey;
 import com.gmall.seckill.redis.RedisService;
 import com.gmall.seckill.redis.UserKey;
-import com.gmall.seckill.result.CodeMsg;
-import com.gmall.seckill.result.Result;
+import com.gmall.seckill.common.AppStatus;
+import com.gmall.seckill.common.CommonResult;
 import com.gmall.seckill.service.SeckillGoodsService;
 import com.gmall.seckill.service.SeckillOrderService;
 import com.gmall.seckill.util.CookieUtil;
@@ -22,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
@@ -30,17 +31,17 @@ import java.util.List;
 @RequestMapping("seckill")
 public class SeckillController implements InitializingBean {
 
-    @Autowired
-    RedisService redisService;
+    @Resource
+    private RedisService redisService;
 
-    @Autowired
-    SeckillGoodsService seckillGoodsService;
+    @Resource
+    private SeckillGoodsService seckillGoodsService;
 
-    @Autowired
-    SeckillOrderService seckillOrderService;
+    @Resource
+    private SeckillOrderService seckillOrderService;
 
-    @Autowired
-    MQSender mqSender;
+    @Resource
+    private MQSender mqSender;
 
     /**
      * 如果是集群情况下，需要达到一定量此缓存才能起到重大作用
@@ -56,7 +57,7 @@ public class SeckillController implements InitializingBean {
             return;
         }
         for (GoodsBo goods : goodsList) {
-            redisService.set(GoodsKey.getSeckillGoodsStock, String.valueOf(goods.getId()), goods.getStockCount(), Const.RedisCacheExtime.GOODS_LIST);
+            redisService.set(GoodsKey.getSeckillGoodsStock, String.valueOf(goods.getId()), goods.getStockCount(), RedisConst.RedisCacheExtime.GOODS_LIST);
             localOverMap.put(goods.getId(), false);
         }
     }
@@ -73,13 +74,13 @@ public class SeckillController implements InitializingBean {
         GoodsBo goods = seckillGoodsService.getseckillGoodsBoByGoodsId(goodsId);
         int stock = goods.getStockCount();
         if (stock <= 0) {
-            model.addAttribute("errmsg", CodeMsg.MIAO_SHA_OVER.getMsg());
+            model.addAttribute("errmsg", AppStatus.MIAO_SHA_OVER.getMsg());
             return "seckill_fail";
         }
         //判断是否已经秒杀到了
         SeckillOrder order = seckillOrderService.getSeckillOrderByUserIdGoodsId(user.getId(), goodsId);
         if (order != null) {
-            model.addAttribute("errmsg", CodeMsg.REPEATE_MIAOSHA.getMsg());
+            model.addAttribute("errmsg", AppStatus.REPEATE_MIAOSHA.getMsg());
             return "seckill_fail";
         }
         //减库存 下订单 写入秒杀订单
@@ -91,43 +92,42 @@ public class SeckillController implements InitializingBean {
 
     @RequestMapping(value = "/{path}/seckill", method = RequestMethod.POST)
     @ResponseBody
-    public Result<Integer> list(Model model,
-                                @RequestParam("goodsId") long goodsId,
-                                @PathVariable("path") String path,
-                                HttpServletRequest request) {
+    public CommonResult<Integer> list(@RequestParam("goodsId") long goodsId,
+                                      @PathVariable("path") String path,
+                                      HttpServletRequest request) {
 
         String loginToken = CookieUtil.readLoginToken(request);
         User user = redisService.get(UserKey.getByName, loginToken, User.class);
         if (user == null) {
-            return Result.error(CodeMsg.USER_NO_LOGIN);
+            return CommonResult.error(AppStatus.USER_NO_LOGIN);
         }
         //验证path
         boolean check = seckillOrderService.checkPath(user, goodsId, path);
         if (!check) {
-            return Result.error(CodeMsg.REQUEST_ILLEGAL);
+            return CommonResult.error(AppStatus.REQUEST_ILLEGAL);
         }
         //内存标记，减少redis访问
         boolean over = localOverMap.get(goodsId);
         if (over) {
-            return Result.error(CodeMsg.MIAO_SHA_OVER);
+            return CommonResult.error(AppStatus.MIAO_SHA_OVER);
         }
         //预减库存
         long stock = redisService.decr(GoodsKey.getSeckillGoodsStock, String.valueOf(goodsId));
         if (stock < 0) {
             localOverMap.put(goodsId, true);
-            return Result.error(CodeMsg.MIAO_SHA_OVER);
+            return CommonResult.error(AppStatus.MIAO_SHA_OVER);
         }
         //判断是否已经秒杀到了
         SeckillOrder order = seckillOrderService.getSeckillOrderByUserIdGoodsId(user.getId(), goodsId);
         if (order != null) {
-            return Result.error(CodeMsg.REPEATE_MIAOSHA);
+            return CommonResult.error(AppStatus.REPEATE_MIAOSHA);
         }
         //入队
         SeckillMessage mm = new SeckillMessage();
         mm.setUser(user);
         mm.setGoodsId(goodsId);
         mqSender.sendSeckillMessage(mm);
-        return Result.success(0);
+        return CommonResult.success(0);
     }
 
     /**
@@ -138,26 +138,26 @@ public class SeckillController implements InitializingBean {
      */
     @RequestMapping(value = "/result", method = RequestMethod.GET)
     @ResponseBody
-    public Result<Long> miaoshaResult(@RequestParam("goodsId") long goodsId, HttpServletRequest request) {
+    public CommonResult<Long> miaoshaResult(@RequestParam("goodsId") long goodsId, HttpServletRequest request) {
         String loginToken = CookieUtil.readLoginToken(request);
         User user = redisService.get(UserKey.getByName, loginToken, User.class);
         if (user == null) {
-            return Result.error(CodeMsg.USER_NO_LOGIN);
+            return CommonResult.error(AppStatus.USER_NO_LOGIN);
         }
         long result = seckillOrderService.getSeckillResult((long) user.getId(), goodsId);
-        return Result.success(result);
+        return CommonResult.success(result);
     }
 
     @AccessLimit(seconds=5, maxCount=5, needLogin=true)
     @RequestMapping(value = "/path", method = RequestMethod.GET)
     @ResponseBody
-    public Result<String> getMiaoshaPath(HttpServletRequest request, User user, @RequestParam("goodsId") long goodsId) {
+    public CommonResult<String> getMiaoshaPath(HttpServletRequest request, User user, @RequestParam("goodsId") long goodsId) {
         String loginToken = CookieUtil.readLoginToken(request);
         user = redisService.get(UserKey.getByName, loginToken, User.class);
         if (user == null) {
-            return Result.error(CodeMsg.USER_NO_LOGIN);
+            return CommonResult.error(AppStatus.USER_NO_LOGIN);
         }
         String path = seckillOrderService.createMiaoshaPath(user, goodsId);
-        return Result.success(path);
+        return CommonResult.success(path);
     }
 }
