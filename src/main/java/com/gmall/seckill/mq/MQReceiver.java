@@ -3,13 +3,12 @@ package com.gmall.seckill.mq;
 import com.gmall.seckill.po.GoodsBo;
 import com.gmall.seckill.po.SeckillOrder;
 import com.gmall.seckill.po.User;
-import com.gmall.seckill.redis.RedisService;
+import com.gmall.seckill.cache.RedisService;
 import com.gmall.seckill.service.OrderService;
 import com.gmall.seckill.service.SeckillGoodsService;
 import com.gmall.seckill.service.SeckillOrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

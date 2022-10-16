@@ -2,11 +2,10 @@ package com.gmall.seckill.filter;
 
 import com.gmall.seckill.common.RedisConst;
 import com.gmall.seckill.po.User;
-import com.gmall.seckill.redis.RedisService;
-import com.gmall.seckill.redis.UserKey;
+import com.gmall.seckill.cache.RedisService;
+import com.gmall.seckill.cache.UserKey;
 import com.gmall.seckill.util.CookieUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;

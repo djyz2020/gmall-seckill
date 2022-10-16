@@ -1,4 +1,4 @@
-package com.gmall.seckill.redis;
+package com.gmall.seckill.cache;
 
 public interface KeyPrefix {
 		

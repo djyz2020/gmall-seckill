@@ -1,4 +1,4 @@
-package com.gmall.seckill.redis;
+package com.gmall.seckill.cache;
 
 import com.alibaba.fastjson.JSON;
 import org.springframework.data.redis.core.RedisTemplate;
