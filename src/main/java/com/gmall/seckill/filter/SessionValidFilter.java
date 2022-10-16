@@ -6,6 +6,7 @@ import com.gmall.seckill.cache.RedisService;
 import com.gmall.seckill.cache.UserKey;
 import com.gmall.seckill.util.CookieUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -17,6 +18,7 @@ import java.io.IOException;
  * 重新设置用户session在redis的有效期
  */
 @Component
+@Order(1)
 public class SessionValidFilter implements Filter {
 
     @Resource

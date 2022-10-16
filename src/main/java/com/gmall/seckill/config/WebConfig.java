@@ -1,8 +1,6 @@
 package com.gmall.seckill.config;
 
-import com.gmall.seckill.filter.SessionValidFilter;
 import com.gmall.seckill.interceptor.AuthorizationInterceptor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
-import javax.servlet.Filter;
+import javax.annotation.Resource;
 
 @Configuration
 public class WebConfig extends WebMvcConfigurationSupport {
@@ -21,21 +19,11 @@ public class WebConfig extends WebMvcConfigurationSupport {
             "classpath:/static/", "classpath:/public/"
     };
 
-    @Autowired
+    @Resource
     private AuthorizationInterceptor authorizationInterceptor;
 
-    @Bean
-    @Order(1)
-    public FilterRegistrationBean sessionFilterRegistration() {
-        FilterRegistrationBean registration = new FilterRegistrationBean();
-        registration.setFilter(new DelegatingFilterProxy("sessionValidFilter"));
-        registration.addUrlPatterns("/**");
-        registration.setName("sessionValidFilter");
-        return registration;
-    }
-
     @Override
-    @Order(2)
+    @Order(1)
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         if (!registry.hasMappingForPattern("/**")) {
             registry.addResourceHandler("/**").addResourceLocations(CLASSPATH_RESOURCE_LOCATIONS);
@@ -44,7 +32,7 @@ public class WebConfig extends WebMvcConfigurationSupport {
     }
 
     @Override
-    @Order(3)
+    @Order(2)
     public void addInterceptors(InterceptorRegistry registry) {
         // addPathPatterns 用于添加拦截规则
         // excludePathPatterns 用户排除拦截

@@ -14,6 +14,11 @@
 </head>
 <body>
 <div class="seckill_content">
+    <div style="margin-left: 100%;">
+        <div style="width: 240px; margin-left: -300px; margin-bottom: -50px; padding-top: 15px;">
+            <button class="btn btn-default" onclick="logout()">退出系统</button>
+        </div>
+    </div>
     <div class="title"><h2>秒杀商品列表</h2></div>
     <div class="all_seckill_goods">
         <div class="seckill_goods" th:each="goods,goodsStat : ${goodsList}">
@@ -30,11 +35,6 @@
                     <button class="btn btn-default" type="submit">进入详情页...</button>
                 </a>
             </div>
-        </div>
-    </div>
-    <div style="margin-left:50%;">
-        <div style="width: 240px; margin-left: -140px; margin-top: 100px;">
-            <button class="btn btn-info btn-block" type="submit" onclick="logout()">退出系统</button>
         </div>
     </div>
 </div>

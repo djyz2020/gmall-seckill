@@ -43,7 +43,7 @@ public class GoodsController {
     @Resource
     private ApplicationContext applicationContext;
 
-    @RequestMapping("/list")
+    @RequestMapping(value = "/list", produces="text/html;charset=utf-8")
     @ResponseBody
     public String list(Model model, HttpServletRequest request, HttpServletResponse response) {
         //修改前
