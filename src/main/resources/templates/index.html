@@ -78,8 +78,7 @@
                 password: password
             },
             success: function (data) {
-                console.log(data);
-                debugger
+                console.log("login: " + data);
                 layer.closeAll();
                 if (data.code == 0) {
                     layer.msg("成功");

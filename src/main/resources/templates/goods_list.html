@@ -32,7 +32,11 @@
             </div>
         </div>
     </div>
-
+    <div style="margin-left:50%;">
+        <div style="width: 240px; margin-left: -140px; margin-top: 100px;">
+            <button class="btn btn-info btn-block" type="submit" onclick="logout()">退出系统</button>
+        </div>
+    </div>
 </div>
 </body>
 <!-- jquery-validator -->
@@ -44,4 +48,9 @@
 <script type="text/javascript" th:src="@{/js/md5.min.js}"></script>
 <!-- common.js -->
 <script type="text/javascript" th:src="@{/js/common.js}"></script>
+<script>
+    function logout() {
+        window.open("/user/logout", "_self")
+    }
+</script>
 </html>
