@@ -1,6 +1,6 @@
 package com.gmall.seckill.dao;
 
-import com.gmall.seckill.bo.GoodsBo;
+import com.gmall.seckill.po.GoodsBo;
 import com.gmall.seckill.po.Goods;
 import org.springframework.stereotype.Repository;
 

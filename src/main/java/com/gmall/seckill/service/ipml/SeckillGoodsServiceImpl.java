@@ -1,9 +1,8 @@
 package com.gmall.seckill.service.ipml;
 
-import com.gmall.seckill.bo.GoodsBo;
+import com.gmall.seckill.po.GoodsBo;
 import com.gmall.seckill.dao.GoodsMapper;
 import com.gmall.seckill.service.SeckillGoodsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

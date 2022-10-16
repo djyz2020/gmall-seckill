@@ -1,6 +1,6 @@
 package com.gmall.seckill.service;
 
-import com.gmall.seckill.bo.GoodsBo;
+import com.gmall.seckill.po.GoodsBo;
 
 import java.util.List;
 

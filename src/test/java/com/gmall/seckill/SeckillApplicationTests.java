@@ -1,6 +1,6 @@
 package com.gmall.seckill;
 
-import com.gmall.seckill.bo.GoodsBo;
+import com.gmall.seckill.po.GoodsBo;
 import com.gmall.seckill.dao.GoodsMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;

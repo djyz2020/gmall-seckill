@@ -5,6 +5,8 @@ import lombok.*;
 import java.util.Date;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 	private int id;
 

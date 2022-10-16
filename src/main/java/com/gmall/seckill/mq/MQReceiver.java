@@ -1,6 +1,6 @@
 package com.gmall.seckill.mq;
 
-import com.gmall.seckill.bo.GoodsBo;
+import com.gmall.seckill.po.GoodsBo;
 import com.gmall.seckill.po.SeckillOrder;
 import com.gmall.seckill.po.User;
 import com.gmall.seckill.redis.RedisService;

@@ -29,7 +29,7 @@
     </constructor>
   </resultMap>
 
-  <resultMap id="BaseResultSeckillOrderAndGoodsMap" type="com.gmall.seckill.bo.GoodsBo" >
+  <resultMap id="BaseResultSeckillOrderAndGoodsMap" type="com.gmall.seckill.po.GoodsBo" >
     <constructor >
       <arg column="seckil_price" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
       <arg column="stock_count" jdbcType="INTEGER" javaType="java.lang.Integer" />

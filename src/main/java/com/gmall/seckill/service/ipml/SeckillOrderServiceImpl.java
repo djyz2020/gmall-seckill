@@ -1,6 +1,6 @@
 package com.gmall.seckill.service.ipml;
 
-import com.gmall.seckill.bo.GoodsBo;
+import com.gmall.seckill.po.GoodsBo;
 import com.gmall.seckill.dao.SeckillOrderMapper;
 import com.gmall.seckill.common.Const;
 import com.gmall.seckill.po.OrderInfo;

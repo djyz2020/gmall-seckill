@@ -1,7 +1,7 @@
 package com.gmall.seckill.controller;
 
 import com.gmall.seckill.annotations.AccessLimit;
-import com.gmall.seckill.bo.GoodsBo;
+import com.gmall.seckill.po.GoodsBo;
 import com.gmall.seckill.mq.MQSender;
 import com.gmall.seckill.mq.SeckillMessage;
 import com.gmall.seckill.common.Const;

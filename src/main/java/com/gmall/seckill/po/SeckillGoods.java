@@ -6,6 +6,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class SeckillGoods {
     private Long id;
 

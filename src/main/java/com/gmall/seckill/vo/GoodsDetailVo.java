@@ -1,6 +1,6 @@
 package com.gmall.seckill.vo;
 
-import com.gmall.seckill.bo.GoodsBo;
+import com.gmall.seckill.po.GoodsBo;
 import com.gmall.seckill.po.User;
 import lombok.Data;
 
